@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jackson.demo.demo.data.dao.TUserDao">
+  <resultMap id="BaseResultMap" type="com.jackson.demo.demo.data.po.TUser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="sex" jdbcType="BIT" property="sex" />
+    <result column="create_person" jdbcType="INTEGER" property="createPerson" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_person" jdbcType="INTEGER" property="updatePerson" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, age, sex, create_person, create_time, update_person, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.jackson.demo.demo.data.po.TUser">
+    insert into t_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="createPerson != null">
+        create_person,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updatePerson != null">
+        update_person,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=BIT},
+      </if>
+      <if test="createPerson != null">
+        #{createPerson,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatePerson != null">
+        #{updatePerson,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jackson.demo.demo.data.po.TUser">
+    update t_user
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=BIT},
+      </if>
+      <if test="createPerson != null">
+        create_person = #{createPerson,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatePerson != null">
+        update_person = #{updatePerson,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectListByCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_user where 1=1
+    <if test="id != null ">
+       and id = #{id,jdbcType=INTEGER}
+    </if>
+    <if test="name != null ">
+       and name = #{name,jdbcType=VARCHAR}
+    </if>
+    <if test="age != null ">
+       and age = #{age,jdbcType=INTEGER}
+    </if>
+    <if test="sex != null ">
+       and sex = #{sex,jdbcType=BIT}
+    </if>
+    <if test="createPerson != null ">
+       and create_person = #{createPerson,jdbcType=INTEGER}
+    </if>
+    <if test="createTime != null ">
+       and create_time = #{createTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updatePerson != null ">
+       and update_person = #{updatePerson,jdbcType=INTEGER}
+    </if>
+    <if test="updateTime != null ">
+       and update_time = #{updateTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="nameParam != null ">
+       and name LIKE CONCAT('%',#{nameParam,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="createTimeStart != null ">
+       and create_time &gt; createTimeStart
+    </if>
+    <if test="createTimeEnd != null ">
+       and create_time &lt; createTimeEnd
+    </if>
+    <if test="updateTimeStart != null ">
+       and update_time &gt; updateTimeStart
+    </if>
+    <if test="updateTimeEnd != null ">
+       and update_time &lt; updateTimeEnd
+    </if>
+     order by
+    <if test=" orderByParams != null">
+      <foreach collection="orderByParams" index="index" item="item" separator=",">
+         #{item}
+      </foreach>
+      <if test=" descParams != null ">
+         DESC
+      </if>
+    </if>
+    <if test=" pageNumber != null and pageSize != null">
+       limit #{pageNumber,jdbcType=INTEGER} , #{pageSize,jdbcType=INTEGER}
+    </if>
+  </select>
+  <select id="selectCountByCondition" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select count(1)
+    from t_user where 1=1
+    <if test="id != null">
+       and id = #{id,jdbcType=INTEGER}
+    </if>
+    <if test="name != null">
+       and name = #{name,jdbcType=VARCHAR}
+    </if>
+    <if test="age != null">
+       and age = #{age,jdbcType=INTEGER}
+    </if>
+    <if test="sex != null">
+       and sex = #{sex,jdbcType=BIT}
+    </if>
+    <if test="createPerson != null">
+       and create_person = #{createPerson,jdbcType=INTEGER}
+    </if>
+    <if test="createTime != null">
+       and create_time = #{createTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="updatePerson != null">
+       and update_person = #{updatePerson,jdbcType=INTEGER}
+    </if>
+    <if test="updateTime != null">
+       and update_time = #{updateTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="nameParam != null ">
+       and name LIKE CONCAT('%',#{nameParam,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="createTimeStart != null ">
+       and create_time &gt; createTimeStart
+    </if>
+    <if test="createTimeEnd != null ">
+       and create_time &lt; createTimeEnd
+    </if>
+    <if test="updateTimeStart != null ">
+       and update_time &gt; updateTimeStart
+    </if>
+    <if test="updateTimeEnd != null ">
+       and update_time &lt; updateTimeEnd
+    </if>
+  </select>
+  <select id="selectByBusinessCode" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_user
+    where name = #{name,jdbcType=VARCHAR}
+  </select>
+  <update id="updateByBusinessCode" parameterType="com.jackson.demo.demo.data.po.TUser">
+    update t_user
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=BIT},
+      </if>
+      <if test="createPerson != null">
+        create_person = #{createPerson,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatePerson != null">
+        update_person = #{updatePerson,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where name = #{name,jdbcType=VARCHAR}
+  </update>
+</mapper>
